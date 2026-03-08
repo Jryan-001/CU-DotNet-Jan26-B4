@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Passport Application Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            margin: 0 auto;
+        }
+
+        td {
+            padding: 8px;
+        }
+
+        input, select {
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Passport Application Form</h1>
+
+<form>
+    <table>
+
+        <tr>
+            <td>Full Name *</td>
+            <td>
+                <input type="text" name="fullname"
+                placeholder="Enter your full name"
+                pattern="[A-Za-z ]{3,}" required>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Aadhaar Number *</td>
+            <td>
+                <input type="text" name="aadhaar"
+                placeholder="Enter 12 digit Aadhaar number"
+                pattern="[0-9]{12}" required>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Gender *</td>
+            <td>
+                <input type="radio" name="gender" required> Male
+                <input type="radio" name="gender"> Female
+            </td>
+        </tr>
+
+        <tr>
+            <td>Date of Birth *</td>
+            <td>
+                <input type="date" name="dob" required>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Mobile Number *</td>
+            <td>
+                <input type="tel" name="mobile"
+                placeholder="Enter 10 digit mobile number"
+                pattern="[0-9]{10}" required>
+            </td>
+        </tr>
+
+        <tr>
+            <td>City *</td>
+            <td>
+                <select name="city" required>
+                    <option value="">Select your city</option>
+                    <option>Delhi</option>
+                    <option>Mumbai</option>
+                    <option>Chennai</option>
+                    <option>Kolkata</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Submit">
+                <input type="reset" value="Reset">
+            </td>
+        </tr>
+
+    </table>
+</form>
+
+</body>
+</html>
