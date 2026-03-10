@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function switche(input){
+            let onn = document.getElementById("light");
+            if(input=='on'){
+                onn.src = "./images/download_1.jpeg";
+            }else{
+                onn.src = "./images/download_2.jpeg";
+            }
+            
+        }
+    </script>
+</head>
+<body>
+    <h1>Switch Light ON-OFF</h1>
+
+    <div>
+        <input type="button"  value="Light-ON" onclick="switche('on')">
+        <a>
+            <img id="light" src = "./images/download_2.jpeg" width = "702px" height= "600px" />
+        </a>
+        <input type="button" value="Light-OFF" onclick="switche('off')">
+    </div>
+</body>
+</html>

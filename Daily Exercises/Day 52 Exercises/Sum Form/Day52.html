@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sum Form</title>
+
+    <script>
+    function validateInput(input){
+        let value = input.value;
+        if(value == ""){
+            input.style.backgroundColor = "red";
+            document.getElementById("result").value = "Error";
+            document.getElementById("result").style.backgroundColor = "orange";
+            return;
+        }
+
+        if(isNaN(value)){
+            input.style.backgroundColor = "yellow";
+            document.getElementById("result").value = "Error";
+            document.getElementById("result").style.backgroundColor = "orange";
+            return;
+        }
+
+        input.style.backgroundColor = "white";
+    }
+
+    function calculate(){
+        let num1 = document.getElementById("num1").value;
+        let num2 = document.getElementById("num2").value;
+
+        if(num1 != "" && num2 != "" && !isNaN(num1) && !isNaN(num2)){
+            let sum = Number(num1) + Number(num2);
+            document.getElementById("result").value = sum;
+            document.getElementById("result").style.backgroundColor = "white";
+        }
+    }
+    </script>
+</head>
+<body>
+    <h2>Sum of Two Numbers</h2>
+
+    <form onsubmit="return false;">
+        <table>
+            <tr>
+                <td>
+                <input type="text" id="num1" onblur="validateInput(this)">
+                </td>
+
+                <td> + </td>
+
+                <td>
+                <input type="text" id="num2" onblur="validateInput(this)">
+                </td>
+
+                <td>
+                <button type="button" onclick="calculate()">=</button>
+                </td>
+
+                <td>
+                <input type="text" id="result" readonly>
+                </td>
+
+            </tr>
+
+        </table>
+    </form>
+</body>
+</html>

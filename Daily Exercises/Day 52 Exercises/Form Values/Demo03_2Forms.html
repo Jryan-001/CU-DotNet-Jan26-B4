@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=
+    device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        /*function showName(){
+            var ename = document.getElementById('ename');
+            alert(ename.value)
+        }
+        */
+
+
+        function showSkills(){
+
+            let result = "";
+
+            let name = document.getElementById("ename").value;
+            result += "Name: " + name + " ";
+
+            let gender = document.getElementsByName("Gender");
+            for (let i = 0; i < gender.length; i++) {
+                if (gender[i].checked) {
+                result += "Gender: " + gender[i].value + " ";
+                }
+            }
+            
+            let skills = document.getElementsByName('skills');
+            let labels = document.getElementsByName('lblskill');
+            let skillList = "";
+            for (let i = 0; i < skills.length; i++) {
+                if (skills[i].checked) {
+                skillList += labels[i].innerHTML + " ";
+                }
+            }
+            result += "Skills: " + skillList + " ";
+
+            let dob = document.getElementById("dob").value;
+            result += "DOB: " + dob + " ";
+
+            let age = document.getElementById("age").value;
+            result += "Age: " + age + " ";
+
+            let email = document.getElementById("email").value;
+            result += "Email: " + email + " ";
+
+            document.getElementById("output").innerHTML = result;
+            alert(result);
+            console.log(result);
+        }
+    </script>
+</head>
+<body>
+    <h1>Employee Registration Form</h1>
+    <form onsubmit="showSkills(); return false;">
+        <table>
+            <tr>
+                <td>
+                    <label>Enter Your Name</label>
+                </td>
+                <td>
+                    <input type ="text" pattern="[A-Za-z]{3,}"
+                    name="ename" id="ename" />
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Enter Your PAN Number</label>
+                </td>
+                <td>
+                    <input type ="text" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" 
+                    name="pan" id="pan" placeholder="ABCDE1234F" title="Enter valid PAN (Example: ABCDE1234F)" />
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Select Gender</label>
+                </td>
+                <td>
+                    <input type ="radio" name = "Gender" id = "male" value="m" /><label for ="male">Male </label>
+                    <input type ="radio" name = "Gender" id = "female" value="f" /><label for = "female">Female </label>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Select skills</label>
+                </td>
+                <td>
+                    <input type="checkbox" name="skills" id="as" value="1" />
+                    <label name="lblskill" for="as">asp</label>
+                    <input type="checkbox" name="skills" id="cs" value="2" />
+                    <label name="lblskill" for="cs">c#</label>
+                    <input type="checkbox" name="skills" id="sql" value="3" />
+                    <label name="lblskill" for="sql">SQL</label>
+                    <input type="checkbox" name="skills" id="cpp" value="4" />
+                    <label name="lblskill" for="cpp">cpp</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Select Age</label>
+                </td>
+                <td>
+                    <input type="number" name="age" id="age" min="10" max="60" >
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Select DOB</label>
+                </td>
+                <td>
+                    <input type="date" name="dob" id="dob" min="2000-12-31" max="2030-12-31" >
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Enter Your Email</label>
+                </td>
+                <td>
+                    <input type="email" name="email" id="email" placeholder="example@gmail.com" >
+                </td>
+                <td>
+                    <input type="submit">
+                </td>
+                <td>
+                    <input type="reset">
+                </td>
+            </tr>
+            <tr>
+                
+            </tr>
+
+        </table>
+        <h3>Submitted Details</h3>
+        <p id="output"></p>
+    </form>
+</body>
+</html>
