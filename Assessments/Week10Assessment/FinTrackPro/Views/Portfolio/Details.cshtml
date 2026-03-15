@@ -1,0 +1,31 @@
+﻿@model FinTrackPro.Models.Stocks
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Stock Details</h2>
+
+<div class="card" style="width: 25rem;">
+    <div class="card-body">
+
+        <h5 class="card-title">@Model.Name</h5>
+
+        <p class="card-text">
+            <strong>Price:</strong> @Model.Price
+        </p>
+
+        <p class="card-text">
+            <strong>Quantity:</strong> @Model.Quantity
+        </p>
+
+        <p class="card-text">
+            <strong>Total Value:</strong> @(Model.Price* Model.Quantity)
+        </p>
+
+    </div>
+</div>
+
+<br />
+
+<a asp-action="Index" class="btn btn-primary">Back to Portfolio</a>
