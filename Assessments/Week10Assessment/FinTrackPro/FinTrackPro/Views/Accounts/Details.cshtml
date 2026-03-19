@@ -1,0 +1,86 @@
+﻿@model FinTrackPro.Models.Account
+
+@{
+    ViewData["Title"] = "Account Details";
+    double runningBalance = Model?.Balance ?? 0;
+    if (Model?.Transactions != null && Model.Transactions.Any())
+    {
+        runningBalance = Model.Transactions.OrderBy(t => t.Date).Aggregate(Model.Balance, (balance, t) =>
+            t.Category == "Debit" ? balance - t.Amount : balance + t.Amount);
+    }
+}
+
+<h1>@Model?.Name - Account Details</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Account Information</h5>
+        <p><strong>Account Name:</strong> @Model?.Name</p>
+        <p><strong>Current Balance:</strong> <span class="badge badge-primary">@Model?.Balance</span></p>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Transactions</h5>
+        <a href="@Url.Action("Create", "Transactions", new { accountId = Model?.Id })" class="btn btn-sm btn-primary">+ Add Transaction</a>
+    </div>
+    <div class="card-body">
+        @if (Model?.Transactions != null && Model.Transactions.Any())
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Running Balance</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        double balance = Model.Balance;
+                        var sortedTransactions = Model.Transactions.OrderBy(t => t.Date).ToList();
+                    }
+                    @foreach (var transaction in sortedTransactions)
+                    {
+                        if (transaction.Category == "Debit")
+                        {
+                            balance -= transaction.Amount;
+                        }
+                        else if (transaction.Category == "Credit")
+                        {
+                            balance += transaction.Amount;
+                        }
+                        <tr>
+                            <td>@transaction.Date.ToShortDateString()</td>
+                            <td>@transaction.Description</td>
+                            <td>
+                                <span class="badge @(transaction.Category == "Debit" ? "badge-danger" : "badge-success")">
+                                    @transaction.Category
+                                </span>
+                            </td>
+                            <td>@transaction.Amount</td>
+                            <td><strong>@balance</strong></td>
+                            <td>
+                                <a href="@Url.Action("Edit", "Transactions", new { id = transaction.Id })" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="@Url.Action("Delete", "Transactions", new { id = transaction.Id })" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-muted">No transactions yet.</p>
+        }
+    </div>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@(Model?.Id)" class="btn btn-secondary">Edit Account</a>
+    <a asp-action="Index" class="btn btn-outline-secondary">Back to Accounts</a>
+</div>

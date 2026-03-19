@@ -1,0 +1,177 @@
+﻿@model IEnumerable<FinTrackPro.Models.Account>
+@if (TempData["Success"] != null)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="successToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-success text-white">
+                <strong class="me-auto">Success</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["Success"]
+            </div>
+        </div>
+    </div>
+    <script>
+        setTimeout(function () {
+            var toast = document.getElementById('successToast');
+            if (toast) {
+                var bsToast = new bootstrap.Toast(toast);
+                bsToast.hide();
+            }
+        }, 3000);
+    </script>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="errorToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-danger text-white">
+                <strong class="me-auto">Error</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["Error"]
+            </div>
+        </div>
+    </div>
+    <script>
+        setTimeout(function () {
+            var toast = document.getElementById('errorToast');
+            if (toast) {
+                var bsToast = new bootstrap.Toast(toast);
+                bsToast.hide();
+            }
+        }, 5000);
+    </script>
+}
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Balance)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Balance)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <strong>Transactions:</strong>
+                    @if (item.Transactions != null && item.Transactions.Count > 0)
+                    {
+                        <table class="table table-sm table-bordered mt-1 mb-1">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Category</th>
+                                    <th>Date</th>
+                                    <th>Running Balance</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    double startBalance = item.Balance;
+                                    foreach (var t in item.Transactions)
+                                    {
+                                        if (t.Category == "Credit") startBalance -= t.Amount;
+                                        else if (t.Category == "Debit") startBalance += t.Amount;
+                                    }
+                                    double runningBalance = startBalance;
+                                }
+                                @foreach (var t in item.Transactions)
+                                {
+                                    if (t.Category == "Credit") runningBalance += t.Amount;
+                                    else if (t.Category == "Debit") runningBalance -= t.Amount;
+                                    
+                                    <tr>
+                                        <td>@t.Description</td>
+                                        <td class="@(t.Category == "Debit" ? "text-danger" : "text-success") fw-bold">
+                                            @(t.Category == "Debit" ? "-" : "+")@t.Amount.ToString("C")
+                                        </td>
+                                        <td class="@(t.Category == "Debit" ? "table-danger" : "table-success")">
+                                            @t.Category
+                                        </td>
+                                        <td>@t.Date.ToShortDateString()</td>
+                                        <td>@runningBalance.ToString("C")</td>
+                                        <td>
+                                            <a href="@Url.Action("Edit", "Transactions", new { id = t.Id })" class="btn btn-sm btn-warning">Edit</a>
+                                            <a href="@Url.Action("Delete", "Transactions", new { id = t.Id })" class="btn btn-sm btn-danger">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="text-muted mb-1">No transactions found.</p>
+                    }
+                    <form asp-action="Create" asp-controller="Transactions" method="post" class="mt-2 p-3 border rounded bg-light">
+                        <input type="hidden" name="AccountId" value="@item.Id" />
+                        <div class="row g-2 align-items-center">
+                            <div class="col-sm-3">
+                                <label class="small text-muted mb-1">Description</label>
+                                <input name="Description" class="form-control form-control-sm" placeholder="Ex: Groceries" required />
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="small text-muted mb-1">Amount</label>
+                                <input name="Amount" class="form-control form-control-sm" type="number" step="0.01" min="0.01" placeholder="0.00" required />
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="small text-muted mb-1">Category</label>
+                                <select name="Category" class="form-select form-select-sm" required>
+                                    <option value="Credit">Credit</option>
+                                    <option value="Debit">Debit</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <label class="small text-muted mb-1">Date</label>
+                                <input name="Date" class="form-control form-control-sm" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+                            </div>
+                            <div class="col-sm-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-sm btn-success w-100">Add Transaction</button>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+            
+        }
+    </tbody>
+</table>

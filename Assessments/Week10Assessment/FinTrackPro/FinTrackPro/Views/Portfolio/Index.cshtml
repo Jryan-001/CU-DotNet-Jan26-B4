@@ -1,0 +1,74 @@
+﻿@model IEnumerable<FinTrackPro.Models.Stocks>
+@{
+    double total = (double)ViewData["Total"];
+}
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Portfolio</h1>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Message"]
+    </div>
+}
+
+<div class="row align-items-center mb-4">
+    <div class="col-md-8">
+        <div class="card bg-light shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title text-primary mb-2">Total Portfolio Value</h4>
+                <h2 class="display-6 fw-bold text-dark">@total.ToString("C")</h2>
+                <hr />
+                <p class="text-muted mb-0 small">Projected Value (+500): <strong>@((total + 500).ToString("C"))</strong></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 text-end mt-3 mt-md-0">
+    </div>
+</div>
+<div class="table-responsive shadow-sm rounded border">
+    <table class="table table-hover table-striped mb-0 align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th class="py-3">
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th class="py-3">
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th class="py-3 border-start">
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th class="py-3">
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th class="py-3 text-end pe-4">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold text-muted">
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td class="fw-bold">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td class="text-success fw-semibold border-start">
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity) Shares
+                    </td>
+                    <td class="text-end pe-3">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info me-1"><i class="bi bi-info-circle"></i> Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

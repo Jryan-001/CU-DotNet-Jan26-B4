@@ -1,0 +1,33 @@
+@model IEnumerable<FinTrackPro.Models.Transaction>
+@{
+    ViewBag.Title = "Transactions";
+    var accountId = ViewBag.AccountId;
+}
+<h2>Transactions for Account @accountId</h2>
+<a href="@Url.Action("Create", "Transactions", new { accountId = accountId })" class="btn btn-primary">Add Transaction</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Category</th>
+             <th>Date</th>
+             <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model)
+        {
+            <tr>
+                <td>@transaction.Description</td>
+                <td>@transaction.Amount</td>
+                <td>@transaction.Category</td>
+                <td>@transaction.Date.ToShortDateString()</td>
+                <td>
+                    <a href="@Url.Action("Edit", "Transactions", new { id = transaction.Id })" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="@Url.Action("Delete", "Transactions", new { id = transaction.Id })" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

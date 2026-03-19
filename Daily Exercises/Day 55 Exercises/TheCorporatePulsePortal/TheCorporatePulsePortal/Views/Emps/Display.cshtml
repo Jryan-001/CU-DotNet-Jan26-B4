@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "Display";
+}
+
+<h1>Dashboard</h1>
+
+@model List<Employee>
+<div class="alert alert-warning">
+    <strong>Announcement:</strong> @ViewBag.msg
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Salary</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var e in Model)
+        {
+            
+            <tr>
+                <td>@e.EmpId</td>
+                <td>@e.EmpName</td>
+                <td>@e.Position</td>
+                <td>@e.Salary</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function ShowAlert(){
+        alert("@ViewBag.msg")
+    }
+</script>
+
+<button onclick="ShowAlert()">Announcement</button>
+
+<h3>Department: @ViewData["DepartmentName"]</h3>
+@if ((bool)ViewData["ServerStatus"])
+{
+    <p style="color:green">Department Active</p>
+}
+else
+{
+    <p style="color:red">Departmnet Under Maintenance</p>
+}

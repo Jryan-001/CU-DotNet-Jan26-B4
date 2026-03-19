@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+@model List<Employee>
+<h1>Index</h1>
+
+@{
+    foreach(var e in Model)
+    {
+        <h2>@e.EmpName, @e.Position, @e.Salary </h2>
+    }
+}
+<script>
+    function ShowAlert(){
+        alert("@ViewBag.msg")
+    }
+</script>
+    
+<button onclick="ShowAlert()">Announcement</button>
+
