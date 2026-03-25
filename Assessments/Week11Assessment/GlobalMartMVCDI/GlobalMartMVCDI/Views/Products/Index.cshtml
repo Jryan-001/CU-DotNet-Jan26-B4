@@ -1,0 +1,44 @@
+﻿@model List<GlobalMartMVCDI.Models.Product>
+
+<div class="container mt-5">
+    <h1>GlobalMart Catalog</h1>
+    <hr />
+
+
+    <div id="cartAlert" style="display:none; position: fixed; top: 10px; right: 10px; z-index: 9999; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        <p>Item Added to Cart!</p>
+
+        <a id="checkoutBtn" href="/Carts/Checkout" class="btn btn-success" style="background-color: #28a745; color: white; padding: 10px; text-decoration: none; border-radius: 5px;">Go to Cart & Checkout</a>
+        <button onclick="document.getElementById('cartAlert').style.display='none'" class="btn btn-sm btn-link">Close</button>
+    </div>
+
+    <div class="row">
+        @foreach (var p in Model)
+        {
+            <div class="col-md-4 mb-4" style="border: 1px solid #ddd; padding: 15px; border-radius: 5px; margin: 10px; max-width: 30%;">
+                <h3>@p.ProductName</h3>
+                <p>Price: @p.Price.ToString("C")</p>
+                
+                <div style="margin-top: 15px;">
+                    <a href="@Url.Action("Details", "Products", new { id = p.ProductId })" class="btn btn-info" style="border: 1px solid #17a2b8; padding: 5px 10px; text-decoration: none; display: inline-block;">Description</a>
+                    
+                    <button class="btn btn-primary" onclick="showPopup('@p.ProductName', @p.Price)" style="background-color: #007bff; color: white; border: none; padding: 5px 10px; cursor: pointer;">Add to Cart</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<script>
+        function showPopup(name, price) {
+            var addUrl = '/Carts/Add?name=' + encodeURIComponent(name) + '&price=' + price;
+            fetch(addUrl).then(response => {
+                if (response.ok) {
+                    document.getElementById('cartAlert').style.display = 'block';
+                    console.log("Added: " + name);
+                }
+            });
+    }
+</script>
+
