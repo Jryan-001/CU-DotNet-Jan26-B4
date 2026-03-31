@@ -1,0 +1,63 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log In";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card shadow-lg rounded-4 border-0">
+            <div class="card-body p-5">
+                <div class="text-center mb-5">
+                    <div class="display-1 text-primary mb-3">
+                        <i class="bi bi-car-front-fill"></i>
+                    </div>
+                    <h2 class="fw-black text-dark mb-1">AutoManager <span class="text-primary text-uppercase">Pro</span></h2>
+                    <p class="text-muted text-uppercase small ls-wide">Corporate Fleet Management Portal</p>
+                </div>
+
+                <form id="account" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-3" role="alert"></div>
+                    
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Email" class="form-control rounded-3" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                        <label asp-for="Input.Email" class="form-label text-muted">Corporate Email</label>
+                        <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                    </div>
+                    
+                    <div class="form-floating mb-4">
+                        <input asp-for="Input.Password" class="form-control rounded-3" autocomplete="current-password" aria-required="true" placeholder="password" />
+                        <label asp-for="Input.Password" class="form-label text-muted">Security PIN / Password</label>
+                        <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" asp-for="Input.RememberMe" />
+                            <label asp-for="Input.RememberMe" class="form-check-label text-muted small">Stay Logged In</label>
+                        </div>
+                        <a id="forgot-password" asp-page="./ForgotPassword" class="text-decoration-none small text-primary fw-semibold">Recover Key?</a>
+                    </div>
+
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary rounded-3 shadow py-3 fw-bold mb-4">
+                        Login
+                    </button>
+
+                    <div class="text-center pt-3 border-top">
+                        <p class="text-muted small mb-0">Unauthorized users please <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-primary fw-bold text-decoration-none">Register Request</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <p class="text-center text-muted mt-4 small">© 2026 AutoManager Pro Systems. SECURE ENV-256V</p>
+    </div>
+</div>
+
+<style>
+    body { background-color: #f8f9fa; }
+    .ls-wide { letter-spacing: 0.1rem; }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+

@@ -1,0 +1,83 @@
+﻿@model List<CarManagementMVCApplication.Models.UserRolesViewModel>
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-lg">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
+            <h3 class="mb-0 fw-bold"><i class="bi bi-shield-lock-fill me-2"></i>Admin Dashboard</h3>
+            <span class="badge bg-light text-primary px-3 py-2 rounded-pill">User Management</span>
+        </div>
+        <div class="card-body p-4">
+            <p class="text-muted mb-4">Manage system users, view their current permissions, and adjust roles as necessary.</p>
+            
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="py-3">User Account</th>
+                            <th class="py-3">Assigned Roles</th>
+                            <th class="py-3 text-center">Administrative Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td class="py-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-circle bg-soft-primary text-primary me-3">
+                                            @(user.Email?.Substring(0, 1).ToUpper() ?? "U")
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold text-dark">@user.Email</div>
+                                            <small class="text-muted">ID: @user.UserId.Substring(0, 8)...</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3">
+                                    @foreach (var role in user.Roles)
+                                    {
+                                        var badgeClass = role == "Admin" ? "bg-danger" : (role == "Customer" ? "bg-success" : "bg-info");
+                                        <span class="badge @badgeClass rounded-pill me-1 px-3">@role</span>
+                                    }
+                                    @if (!user.Roles.Any())
+                                    {
+                                        <span class="badge bg-secondary rounded-pill px-3">No Roles</span>
+                                    }
+                                </td>
+                                <td class="py-3 text-center">
+                                    <a asp-controller="Account" asp-action="ManageRoles" asp-route-userId="@user.UserId" class="btn btn-outline-primary btn-sm px-4 rounded-pill transition">
+                                        <i class="bi bi-gear-fill me-1"></i> Manage Roles
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer bg-white border-0 py-3 text-center">
+            <small class="text-muted">Total Users Indexed: @Model.Count</small>
+        </div>
+    </div>
+</div>
+
+<style>
+    .avatar-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    .bg-soft-primary { background-color: rgba(13, 110, 253, 0.1); }
+    .transition { transition: all 0.3s ease; }
+    .transition:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
