@@ -1,0 +1,35 @@
+﻿@model FrontendMVC.Models.DestinationViewModel
+
+<div class="container mt-4">
+    <h1>Add New Destination</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create">
+                <div class="form-group mb-2">
+                    <label asp-for="CityName" class="control-label"></label>
+                    <input asp-for="CityName" class="form-control" />
+                </div>
+                <div class="form-group mb-2">
+                    <label asp-for="Country" class="control-label"></label>
+                    <input asp-for="Country" class="form-control" />
+                </div>
+                <div class="form-group mb-2">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                </div>
+                <div class="form-group mb-2">
+                    <label asp-for="Rating" class="control-label"></label>
+                    <input asp-for="Rating" class="form-control" type="number" min="1" max="5" />
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="LastVisited" class="control-label"></label>
+                    <input asp-for="LastVisited" class="form-control" type="date" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
