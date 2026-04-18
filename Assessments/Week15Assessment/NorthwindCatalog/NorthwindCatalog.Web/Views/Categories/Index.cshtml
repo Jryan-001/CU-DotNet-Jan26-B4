@@ -1,0 +1,21 @@
+﻿@model IEnumerable<NorthwindCatalog.Services.Dtos.CategoryDto>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Northwind Catalog</h2>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            string img = $"images/{item.CategoryId}.jpeg";
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 shadow-sm border-0 bg-light">
+                    <img src="@img" class="card-img-top" style="height: 150px; object-fit: cover;"
+                         onerror="this.src='https://via.placeholder.com/150?text=Category'">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold">@item.CategoryName</h5>
+                        <a href="/Products/ByCategory/@item.CategoryId" class="btn btn-outline-primary mt-2">View Products</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
