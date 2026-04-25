@@ -15,6 +15,11 @@ namespace CourseAPI.Services
             _repo = repo;
             _mapper = mapper;
         }
+        private double CalculateDiscountedPrice(double price)
+        {
+
+            return Math.Round(price * 0.90, 2);
+        }
         public async Task<CourseResponseDto> CreateAsync(CreateCourseDto dto)
         {
             if (dto.Price > 1000)
@@ -43,6 +48,9 @@ namespace CourseAPI.Services
 
         public async Task<CourseResponseDto> UpdateAsync(UpdateCourseDto dto)
         {
+            if (dto.Price > 1000)
+                throw new Exception("Course price exceeds maximum allowed limit.");
+
             var course = await _repo.GetByIdAsync(dto.CourseId);
             if (course == null) throw new Exception("Course not found.");
 
@@ -53,10 +61,6 @@ namespace CourseAPI.Services
             return _mapper.Map<CourseResponseDto>(result);
         }
 
-        private double CalculateDiscountedPrice(double price)
-        {
 
-            return Math.Round(price * 0.90, 2);
-        }
     }
 }

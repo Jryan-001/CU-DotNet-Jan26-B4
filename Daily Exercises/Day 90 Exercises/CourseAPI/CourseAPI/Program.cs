@@ -40,6 +40,7 @@ namespace CourseAPI
                 cfg.AddMaps(typeof(Program).Assembly);
             });
             builder.Services.AddValidatorsFromAssemblyContaining<CreateCourseDtoValidator>();
+            builder.Services.AddValidatorsFromAssemblyContaining<UpdateCourseDtoValidator>();
             builder.Services.AddFluentValidationAutoValidation();
 
             var app = builder.Build();
