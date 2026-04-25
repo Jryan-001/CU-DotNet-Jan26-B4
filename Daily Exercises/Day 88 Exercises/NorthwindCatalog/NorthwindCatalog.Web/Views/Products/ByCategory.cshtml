@@ -1,0 +1,28 @@
+﻿@model IEnumerable<NorthwindCatalog.Services.Dtos.ProductDto>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between">
+        <h2>Products</h2>
+        <a href="/Categories" class="btn btn-secondary">Back to Categories</a>
+    </div>
+    <hr />
+    <div class="row mt-3">
+        @foreach (var p in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card border-info shadow">
+                    <div class="card-body">
+                        <h5 class="card-title text-info">@p.ProductName</h5>
+                        <p class="card-text">
+                            <strong>Price:</strong> @p.UnitPrice.ToString("C") <br />
+                            <strong>Stock:</strong> @p.UnitsInStock <br />
+                            <div class="mt-2 p-2 bg-success text-white text-center rounded">
+                                Inventory Value: @p.InventoryValue.ToString("C")
+                            </div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
